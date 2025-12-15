@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://ohrpi5yjigkf"]
+
+[ext_resource type="Texture2D" uid="uid://dso1xaif77ra1" path="res://Assets/Kenny/Textures/texture-d.png" id="1_4ntmi"]
+[ext_resource type="Script" uid="uid://csa07uupomm4c" path="res://Player/player.gd" id="1_btcbx"]
+[ext_resource type="ArrayMesh" uid="uid://bftq2h1kulrar" path="res://Assets/Kenny/character-d.obj" id="2_btcbx"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4ntmi"]
+radius = 0.5136719
+height = 1.75
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gwnis"]
+albedo_texture = ExtResource("1_4ntmi")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_btcbx"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 5.0
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_btcbx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
+shape = SubResource("CapsuleShape3D_4ntmi")
+
+[node name="Character" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="CharacterD" type="MeshInstance3D" parent="Character"]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_gwnis")
+mesh = ExtResource("2_btcbx")
+skeleton = NodePath("../..")
+
+[node name="CameraOrigin" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraOrigin"]
+spring_length = 5.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraOrigin/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+current = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CameraOrigin"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 2.5)
+mesh = SubResource("CylinderMesh_btcbx")
